@@ -3,7 +3,7 @@ import updateLocale from 'dayjs/plugin/updateLocale';
 import { Fragment, h } from 'preact';
 import { Box } from '../components/box/box';
 
-// import './app.css'
+import './app.css'
 
 // dayjs.extend(updateLocale);
 // dayjs.updateLocale('en', {

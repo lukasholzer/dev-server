@@ -56,5 +56,5 @@ nodejs_binary(
         "//packages/preact-test-app:assets",
     ],
     entry_point = ":src/cli.ts",
-    # tags = ["ibazel_notify_changes"],
+    tags = ["ibazel_notify_changes"],
 )

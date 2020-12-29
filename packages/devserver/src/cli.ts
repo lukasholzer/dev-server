@@ -1,4 +1,3 @@
-import { globber } from './globber';
 import { startServer } from './server';
 
 

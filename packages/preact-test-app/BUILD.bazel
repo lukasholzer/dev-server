@@ -27,6 +27,7 @@ copy_to_bin(
     name = "assets",
     srcs = [
         ":src/app/app.css",
+        ":src/components/box/box.css",
         ":src/index.html",
         ":src/styles.css",
     ],

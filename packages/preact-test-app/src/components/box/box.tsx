@@ -1,6 +1,6 @@
 import { Fragment, FunctionComponent, h, AnyComponent, JSX } from 'preact';
 
-// import './box.css';
+import './box.css';
 
 interface BoxProps {
   headline?: JSX.Element | string;

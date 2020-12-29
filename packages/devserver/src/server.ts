@@ -3,6 +3,17 @@ import { existsSync, lstatSync, readFileSync } from 'fs';
 import { extname, parse, sep } from 'path';
 import { importTransformer } from './import-transformer';
 
+const injectCssFile = `function injectCssFile(href) {
+    const link = document.createElement('link');
+    link.setAttribute('rel', 'stylesheet');
+    link.setAttribute('type', 'text/css');
+    link.onload = () => resolve();
+    link.onerror = () => reject();
+    link.setAttribute('href', href);
+    document.head.appendChild(link);
+}
+`
+
 export function startServer(config: {
   moduleDirs: string[];
   rootDir: string;
@@ -13,10 +24,13 @@ export function startServer(config: {
   });
 
   server.get('/', (request, reply) => {
-    const index = readFileSync(
+    let index = readFileSync(
       `${config.rootDir}${sep}${config.index || 'index.html'}`,
       'utf-8'
     );
+
+    index = index.replace('</head>', `</head><script>${injectCssFile}</script>`)
+
     reply.type('text/html').code(200).send(index);
   });
 
@@ -25,7 +39,6 @@ export function startServer(config: {
       config.rootDir,
       ...config.moduleDirs,
     ]);
-    console.log(resolved);
 
     if (!resolved) {
       reply.code(404);
