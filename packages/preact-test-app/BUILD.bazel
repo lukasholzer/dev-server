@@ -26,7 +26,7 @@ ts_project(
 copy_to_bin(
     name = "assets",
     srcs = [
-        ":src/app/App.css",
+        ":src/app/app.css",
         ":src/index.html",
         ":src/styles.css",
     ],
