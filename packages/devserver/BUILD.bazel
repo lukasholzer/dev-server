@@ -1,0 +1,60 @@
+load("@npm//@bazel/typescript:index.bzl", "ts_config", "ts_project")
+load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary")
+load("//tools/bazel_rules/jest:jest.bzl", "jest_test")
+
+package(default_visibility = ["//:__subpackages__"])
+
+ts_project(
+    name = "compile",
+    srcs = glob(
+        include = ["**/*.ts"],
+        exclude = ["**/*.test.ts"],
+    ),
+    declaration = True,
+    source_map = True,
+    tsconfig = ":tsconfig",
+    deps = [
+        "@npm//@types/node",
+        "@npm//fastify",
+    ],
+)
+
+jest_test(
+    name = "test",
+    srcs = glob(["**/*.test.ts"]),
+    jest_config = ":jest.config.js",
+    snapshots = glob(["**/__snapshots__/*.snap"]),
+    tsconfig = ":tsconfig_test",
+    deps = [
+        ":compile",
+    ],
+)
+
+ts_config(
+    name = "tsconfig",
+    src = ":tsconfig.lib.json",
+    deps = [
+        ":tsconfig.json",
+        "//:tsconfig.base.json",
+    ],
+)
+
+ts_config(
+    name = "tsconfig_test",
+    src = ":tsconfig.test.json",
+    deps = [
+        ":tsconfig.json",
+        "//:tsconfig.base.json",
+    ],
+)
+
+nodejs_binary(
+    name = "serve",
+    data = [
+        ":compile",
+        "//packages/preact-test-app",
+        "//packages/preact-test-app:assets",
+    ],
+    entry_point = ":src/cli.ts",
+    # tags = ["ibazel_notify_changes"],
+)

@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "scripts": {},
   "dependencies": {
+    "dayjs": "^1.9.8",
     "preact": "^10.4.1"
   },
   "devDependencies": {

@@ -1,1 +1,6 @@
 exports_files(["tsconfig.base.json"])
+
+alias(
+    name = "dev",
+    actual = "//packages/devserver:serve",
+)

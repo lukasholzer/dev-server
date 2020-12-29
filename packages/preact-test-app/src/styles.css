@@ -1,0 +1,41 @@
+:root {
+  --color-primary: #511d9a4d;
+  --color-secondary: rgba(238, 174, 202, 0.4);
+  --gradient: linear-gradient(
+    var(--gradient-angle, 135deg),
+    var(--color-primary) 0%,
+    var(--color-secondary) 100%
+  );
+  --font-main: 'Source Sans Pro', sans-serif;
+}
+
+html,
+body {
+  min-height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  font-weight: 400;
+  color: rgb(12, 11, 12);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  font-size: 20px;
+  font-family: var(--font-main);
+}
+
+body {
+	padding: 3em;
+  background: linear-gradient(
+      -135deg,
+      rgba(250, 240, 244, 0.8) 0%,
+      transparent 20%
+    ),
+    linear-gradient(-25deg, rgba(105, 37, 184, 0.8) 0%, transparent 50%),
+    linear-gradient(50deg, rgba(161, 191, 223, 0.8) 0%, transparent 50%),
+    linear-gradient(145deg, rgba(238, 174, 202, 0.8) 0%, transparent 100%);
+}
+
+* {
+  box-sizing: border-box;
+}

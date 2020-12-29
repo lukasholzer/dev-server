@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "sourceMap": false,
+    "module": "UMD",
+    "types": ["jest", "node"]
+  },
+  "include": ["**/*.test.ts", "**/*.d.ts"]
+}

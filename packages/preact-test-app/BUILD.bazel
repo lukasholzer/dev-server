@@ -1,0 +1,51 @@
+load("@npm//@bazel/typescript:index.bzl", "ts_config", "ts_project")
+load("@build_bazel_rules_nodejs//:index.bzl", "copy_to_bin")
+
+package(default_visibility = ["//:__subpackages__"])
+
+ts_project(
+    name = "preact-test-app",
+    srcs = glob(
+        include = [
+            "**/*.tsx",
+            "**/*.ts",
+        ],
+        exclude = [
+            "**/*.test.tsx",
+            "**/*.test.ts",
+        ],
+    ),
+    source_map = False,
+    tsconfig = ":tsconfig_app",
+    deps = [
+        "@npm//dayjs",
+        "@npm//preact",
+    ],
+)
+
+copy_to_bin(
+    name = "assets",
+    srcs = [
+        ":src/app/App.css",
+        ":src/index.html",
+        ":src/styles.css",
+    ],
+)
+
+ts_config(
+    name = "tsconfig_app",
+    src = ":tsconfig.app.json",
+    deps = [
+        ":tsconfig.json",
+        "//:tsconfig.base.json",
+    ],
+)
+
+ts_config(
+    name = "tsconfig",
+    src = ":tsconfig.test.json",
+    deps = [
+        ":tsconfig.json",
+        "//:tsconfig.base.json",
+    ],
+)
