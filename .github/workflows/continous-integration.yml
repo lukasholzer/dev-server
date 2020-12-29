@@ -1,0 +1,46 @@
+name: Pull Request Checks
+
+on: push
+
+jobs:
+  continous-integration:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Add CI config
+        run: mv .github/.bazelrc .bazelrc.user
+
+      - name: Mount bazel cache
+        uses: actions/cache@v2
+        with:
+          path: '/home/runner/.cache/bazel'
+          key: general-cache-bazel
+
+      - name: Mount Disk cache
+        uses: actions/cache@v2
+        with:
+          path: '/home/runner/.cache/bazel-disk-cache'
+          key: disk-cache-bazel
+
+      - name: Mount Repo cache
+        uses: actions/cache@v2
+        with:
+          path: '/home/runner/.cache/bazel-repo-cache'
+          key: repo-cache-bazel
+
+      - name: Install bazelisk
+        run: |
+          curl -LO "https://github.com/bazelbuild/bazelisk/releases/download/v1.7.4/bazelisk-linux-amd64"
+          mkdir -p "${GITHUB_WORKSPACE}/bin/"
+          mv bazelisk-linux-amd64 "${GITHUB_WORKSPACE}/bin/bazel"
+          chmod +x "${GITHUB_WORKSPACE}/bin/bazel"
+
+      - name: Build
+        run: |
+          "${GITHUB_WORKSPACE}/bin/bazel" build //...
+
+      - name: Test
+        run: |
+          "${GITHUB_WORKSPACE}/bin/bazel" test //...
